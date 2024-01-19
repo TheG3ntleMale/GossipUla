@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    body {
+    background: linear-gradient(to right, #ff6b6b, #ffb6b9);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+        padding: 10px 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo h1 {
+        color: #ff6b6b;
+        margin: 0;
+    }
+
+    .navbar-buttons {
+        display: flex;
+        align-items: center;
+    }
+
+    .publish-button {
+        background-color: #ff6b6b;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-button {
+        background-color: #fff;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        right: 0; /* Alinea el botón desplegable a la derecha */
+    }
+
+    .dropdown-content a {
+        color: #ff6b6b;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #ffb6b9;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .content-container {
+    padding: 20px;
+    color: #ff6b6b;
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 66px minmax(160px, auto) auto;
+    grid-template-areas: 
+        'header header'
+        'leftbar main'
+        'footer footer';
+    column-gap: 20px;
+    row-gap: 20px;
+    }
+
+    .post-container {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .user-info h3 {
+        color: #ff6b6b;
+        margin: 0;
+    }
+
+    .welcome {
+        color: #fff;
+        text-align: center;
+    }
+
+    .separator-line {
+        margin: 10px 0;
+        border: 0;
+        border-top: 1px solid #ff6b6b;
+    }   
+
+    .post-content {
+        margin-top: 10px;
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+    .post-date {
+        bottom: 10px;
+        right: 10px;
+        color: #888; /* Color gris para la fecha */
+    }
+
+    .side-container {
+            width: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+    .side-container h2 {
+            color: #ff6b6b;
+        }
+
+    @media only screen and (max-width: 600px) {
+    .navbar-buttons {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .logo h1{
+        margin: revert;
+    }
+
+    .content-container{
+        display: block;
+    }
+
+    .publish-button,
+    .dropdown-content a {
+        margin: 5px 0;
+    }
+
+    .post-container {
+        padding: 10px;
+    }
+}
+
+
+    </style>
+    <title>GossipUla - Inicio</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <h1>GossipUla</h1>
+        </div>
+        <div class="navbar-buttons">
+            <a href="{{ url_for('post')}}" class="publish-button">Publicar</a>
+            <a class="publish-button" href="{{ url_for('logout')}}">Cerrar Sesión</a>
+            <!--<div class="dropdown">
+                <button class="dropdown-button">&#9776;</button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('profile')}}">Perfil</a>
+                    <a href="{{ url_for('logout')}}">Cerrar Sesión</a>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+    <div class="content-container">
+        <p class="welcome">Welcome back queen {{ current_user.username }}!</p>
+        <div class="main-container">
+            {% for i in data|reverse %}
+            <div class="post-container">
+                <div class="user-info">
+                    <h3>{{ i[2] }}</h3>
+                    <hr class="separator-line">
+                </div>
+                <div class="post-content">
+                    <p>{{ i[1] }}</p>
+                </div>
+                <div class="post-date">
+                    <p>{{ i[3] }}</p>
+                </div>
+                {% if current_user.is_authenticated and current_user.id == 2 %}
+                <form method="POST" action="{{ url_for('delete_post') }}">
+                    <input type="hidden" name="id_post" value="{{ i[0] }}">
+                    <button type="submit">Eliminar</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="side-container">
+            <h2>The Gentleman 🤵</h2>
+            {% for i in data_admin|reverse %}
+                <div class="post-container">
+                    <div class="post-content">
+                        <p>{{ i[1] }}</p>
+                    </div>
+                    <div class="post-date">
+                        <p>{{ i[3] }}</p>
+                    </div>
+                    {% if current_user.is_authenticated and current_user.id == 2 %}
+                <form method="POST" action="{{ url_for('delete_post') }}">
+                    <input type="hidden" name="id_post" value="{{ i[0] }}">
+                    <button type="submit">Eliminar</button>
+                </form>
+                {% endif %}
+                </div>
+                {% endfor %}
+        </div>
+        <!--
+        Aquí puedes colocar el contenido principal de la página
+        
+        <h1>Posts</h1>
+        <div>
+            {% for i in data %}
+                <li>{{ i[0] }}</li>
+            {% endfor %}
+        </div>
+        -->
+    </div>
+</body>
+</html>

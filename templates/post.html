@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff6b6b, #ffb6b9);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        label {
+            color: #ff6b6b;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        input[type="submit"] {
+            background-color: #ff6b6b;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ffb6b9;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Publicar un nuevo post</h1>
+    <form method="POST" action="/post">
+        <label for="texto_post">Texto del post:</label><br>
+        <textarea id="texto_post" name="texto_post" rows="4" cols="50" required></textarea><br>
+        <input type="submit" value="Publicar">
+    </form>
+
+    <a href="{{ url_for('home') }}">Volver a la página principal</a>
+</body>
+</html>

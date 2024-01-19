@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
+    <title>Registro en GossipUla</title>
+</head>
+<body>
+    <div class="login-container">
+        <h1>GossipUla</h1>
+        <form action="/register" method="POST">
+            <h2>Registro</h2>
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" name="reg_username" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="reg_password" required>
+
+            <button type="submit">Registrarse</button>
+        </form>
+
+        <div class="register-button">
+            <p>¿Ya tienes una cuenta? <a href="{{ url_for('login')}}">Iniciar Sesión</a></p>
+        </div>
+    </div>
+</body>
+</html>
